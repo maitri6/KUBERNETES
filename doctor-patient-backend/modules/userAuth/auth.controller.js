@@ -35,6 +35,7 @@ exports.register = async (req, res, next) => {
  */
 exports.login = async (req, res, next) => {
   try {
+    console.log("login API runs")
     let email = req.body.email;
     let password = req.body.password;
 

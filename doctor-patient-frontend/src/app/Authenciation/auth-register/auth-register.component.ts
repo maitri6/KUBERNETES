@@ -30,7 +30,7 @@ export class AuthRegisterComponent implements OnInit {
       password : this.RegisterForm.value.password
     }
      this.authService.userRegister(userRegisterobj).subscribe((res : any) => {
-      console.log(res);
+      console.log("result",res);
      })
   }
 
