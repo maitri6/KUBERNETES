@@ -5,15 +5,19 @@ import { FormGroup, FormControl, Validators} from '@angular/forms';
 @Component({
   selector: 'app-auth-register',
   templateUrl: './auth-register.component.html',
-  styleUrls: ['./auth-register.component.css']
+  styleUrls: ['./auth-register.component.css'],
+  //providers:['AuthServiceService'] 
 })
 export class AuthRegisterComponent implements OnInit {
 
   constructor(private authService: AuthServiceService) { }
 
   ngOnInit(): void {
+    this.RegisterForm.controls.name.valueChanges.subscribe((value) => {
+      console.log(value)
+        })
+    
   }
-
   RegisterForm = new FormGroup({
     email : new FormControl('', [Validators.required, Validators.email]),
     name : new FormControl('', [Validators.required]),
@@ -22,7 +26,14 @@ export class AuthRegisterComponent implements OnInit {
     confirm_password : new FormControl('', [Validators.required, Validators.minLength(6)])
   })
 
+get f()
+{
+    return this.RegisterForm.controls;
+}
+
+
   userRegister(){
+    console.log(this.RegisterForm)
     const userRegisterobj = {
       name : this.RegisterForm.value.name, 
       email : this.RegisterForm.value.email,
