@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthServiceService} from '../Services/auth-service.service'
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import {NotficationServiceService} from '../../Notification/notfication-service.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-register',
@@ -10,12 +11,12 @@ import {NotficationServiceService} from '../../Notification/notfication-service.
   //providers:['AuthServiceService'] 
 })
 export class AuthRegisterComponent implements OnInit {
-
-  constructor(private authService: AuthServiceService,private notifyService: NotficationServiceService) { }
+  constructor(private authService: AuthServiceService,
+    private notifyService: NotficationServiceService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.RegisterForm.controls.name.valueChanges.subscribe((value) => {
-      console.log(value)
         })
     
   }
@@ -34,7 +35,6 @@ get f()
 
 
   userRegister(){
-    console.log(this.RegisterForm)
     const userRegisterobj = {
       name : this.RegisterForm.value.name, 
       email : this.RegisterForm.value.email,
@@ -43,18 +43,20 @@ get f()
     }
      this.authService.userRegister(userRegisterobj).subscribe((res : any) => {
        console.log("result",res);
-       this.notifyService.showToastSuccess("Otp")
-      // if(res.statusMessage=="User already exists."){
-      //   console.log("runs perfect")
+     
+      if(res.statusCode==200){
+     this.router.navigate(['/otp-verification']);
+        this.notifyService.showToastSuccess("OTP sent successfully.")
+      }
       
-      // }
-      // else if(res.error.statusCode==404)
-      // { 
-      //   console.log("error")
-      // }
 
      },(err: any) =>{
       console.log("error",err.error)
+       
+      if(err.error.statusCode==400){
+        this.router.navigate(['/register']);
+           this.notifyService.showToastError("User already exists.")
+         }
      })
 
   

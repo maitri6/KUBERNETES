@@ -12,7 +12,7 @@ const { generateJwt } = require("../../helpers/jwt.helper");
 exports.register = async (req, res, next) => {
   try {
     const checkUser = await UserModel.findOne({ email: req.body.email });
-    if (checkUser) return sendResponse(res, true, 422, "User already exists.");
+    if (checkUser) return sendResponse(res, true, 400, "User already exists.");
     req.body.password = await bcrypt.hash(req.body.password, 10);
     let saveUser = await UserModel.create(req.body);
     return sendResponse(
