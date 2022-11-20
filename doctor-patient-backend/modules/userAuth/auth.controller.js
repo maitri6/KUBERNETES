@@ -12,14 +12,14 @@ const { generateJwt } = require("../../helpers/jwt.helper");
 exports.register = async (req, res, next) => {
   try {
     const checkUser = await UserModel.findOne({ email: req.body.email });
-    if (checkUser) return sendResponse(res, true, 400, "User already exists.");
+    if (checkUser) return sendResponse(res, true, 400, "Email already exists..");
     req.body.password = await bcrypt.hash(req.body.password, 10);
     let saveUser = await UserModel.create(req.body);
     return sendResponse(
       res,
       true,
       200,
-      "User register successfully.",
+      "OTP sent successfully.",
       saveUser
     );
   } catch (error) {
@@ -35,15 +35,15 @@ exports.register = async (req, res, next) => {
  */
 exports.login = async (req, res, next) => {
   try {
-    console.log("login API runs")
+   
     let email = req.body.email;
     let password = req.body.password;
 
     const getUser = await UserModel.findOne({ email: email });
-    if (!getUser) return sendResponse(res, true, 404, "User not exists or Please enter valid email.");
+    if (!getUser) return sendResponse(res, true, 400, "Email already exists.");
 
     if (getUser && !(await bcrypt.compare(password, getUser.password)))
-      return sendResponse(res, true, 404, "Invalid password.");
+      return sendResponse(res, true, 400, "Invalid password.");
 
     let token =await generateJwt({ userId: getUser._id });
     if (token === undefined) {
@@ -54,7 +54,7 @@ exports.login = async (req, res, next) => {
         "Something went wrong please try again."
       );
     }
-    return sendResponse(res, true, 200, "Login successfully.", {
+    return sendResponse(res, true, 200, "OTP sent successfully.", {
       getUser,
       token,
     });

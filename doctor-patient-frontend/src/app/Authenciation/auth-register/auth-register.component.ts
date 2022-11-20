@@ -18,7 +18,7 @@ export class AuthRegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.RegisterForm.controls.name.valueChanges.subscribe((value) => {});
+ //   this.RegisterForm.controls.name.valueChanges.subscribe((value) => {});
   }
   RegisterForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -44,31 +44,34 @@ export class AuthRegisterComponent implements OnInit {
       email: this.RegisterForm.value.email,
       phoneNumber: this.RegisterForm.value.phone,
       password: this.RegisterForm.value.password,
-      confirm_password:this.RegisterForm.value.confirm_password
+      confirm_password: this.RegisterForm.value.confirm_password,
     };
 
-    if(userRegisterobj.password!=userRegisterobj.confirm_password){
-      this.notifyService.showToastError("Password does not match");
+    if (userRegisterobj.password != userRegisterobj.confirm_password) {
+      this.notifyService.showToastError('Password does not match');
       this.router.navigate(['/register']);
+    } else{
+      this.authService.userRegister(userRegisterobj).subscribe(
+        (res: any) => {
+          if (res.statusCode == 200) {
+            this.router.navigate(['/otp-verification']);
+            this.notifyService.showToastSuccess(res.statusMessage);
+          }
+        },
+        (err: any) => {
+          if (err.error.statusCode == 400) {
+            this.router.navigate(['/register']);
+            this.notifyService.showToastError(err.error.statusMessage);
+          } else if (err.error.statusCode == 422) {
+            this.router.navigate(['/register']);
+            this.notifyService.showToastError(err.error.statusMessage);
+          }
+          else{
+            this.router.navigate(['/login']);
+            this.notifyService.showToastError(err.error.statusMessage);
+          }
+        }
+      );
     }
-    else 
-    this.authService.userRegister(userRegisterobj).subscribe(
-      (res: any) => {
-        if (res.statusCode == 200) {
-          this.router.navigate(['/otp-verification']);
-          this.notifyService.showToastSuccess('OTP sent successfully.');
-        }
-      },
-      (err: any) => {
-        if (err.error.statusCode == 400) {
-          this.router.navigate(['/register']);
-          this.notifyService.showToastError('User already exists.');
-        }
-        else if (err.error.statusCode == 422){
-          this.router.navigate(['/register']);
-          this.notifyService.showToastError(err.error.statusMessage);
-        }
-      }
-    );
   }
 }

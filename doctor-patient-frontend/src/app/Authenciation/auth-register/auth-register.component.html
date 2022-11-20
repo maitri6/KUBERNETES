@@ -30,7 +30,7 @@
                         <input type="email" id="form3Example3c" class="form-control" formControlName="email" placeholder="Enter Valid Email"/>
                         <label class="form-label" for="form3Example3c">Patient Email</label>
                         <div *ngIf="f.email.touched && f.email.invalid">
-                          <small *ngIf="f.email.errors?.['required']">Email is required</small>
+                          <small *ngIf="f.email.errors?.['required']">This field is required</small>
                           <small *ngIf="f.email.errors?.['email']">Please enter valid email address</small>
                          </div>
                          </div>
@@ -41,6 +41,9 @@
                         <div class="form-outline flex-fill mb-0">
                           <input type="text" id="form3Example1c" class="form-control" formControlName="phone"  placeholder="Enter Phone Number" />
                           <label class="form-label" for="form3Example1c">Phone Number</label>
+                          <div *ngIf="f.phone.touched && f.phone.invalid">
+                            <small *ngIf="f.phone.errors?.['required']">This field is required</small>
+                           </div>
                         </div>
                       </div>
   
@@ -49,6 +52,9 @@
                       <div class="form-outline flex-fill mb-0">
                         <input type="password" id="form3Example4c" class="form-control" formControlName="password" placeholder="Enter Password" />
                         <label class="form-label" for="form3Example4c">Password</label>
+                        <div *ngIf="f.password.touched && f.password.invalid">
+                          <small *ngIf="f.password.errors?.['required']">This field is required</small>
+                         </div>
                       </div>
                     </div>
   
@@ -57,6 +63,9 @@
                       <div class="form-outline flex-fill mb-0">
                         <input type="password" id="form3Example4cd" class="form-control" formControlName="confirm_password" placeholder="Enter confirm Password" />
                         <label class="form-label" for="form3Example4cd">Repeat your password</label>
+                        <div *ngIf="f.confirm_password.touched && f.confirm_password.invalid">
+                          <small *ngIf="f.confirm_password.errors?.['required']">This field is required</small>
+                         </div>
                       </div>
                     </div>
   
@@ -74,8 +83,10 @@
                 </div>
                 <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
   
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                    class="img-fluid" alt="Sample image">
+                  <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                    class="img-fluid" alt="Sample image"> -->
+                    <img src="../../../assets/doctor-patient.webp"
+                    class="img-fluid"  alt="Sample image">
   
                 </div>
               </div>
