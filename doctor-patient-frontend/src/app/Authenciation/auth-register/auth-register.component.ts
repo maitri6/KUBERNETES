@@ -18,7 +18,7 @@ export class AuthRegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
- //   this.RegisterForm.controls.name.valueChanges.subscribe((value) => {});
+
   }
   RegisterForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
