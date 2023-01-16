@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+   name: backend-service
+   labels:
+      app: first-app
+spec:
+   selector:
+      app: first-app
+   ports:
+   -  protocol: 'TCP'
+      port: 3003
+      targetPort: 3003  
+      
+   clusterIP: None     

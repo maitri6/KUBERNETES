@@ -1,10 +1,11 @@
-
+require('dotenv').config();
 
 const express=require('express');
 const http=require('http');
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const cors = require("cors");
+
 
 const app=express();
 app.use(express.json());
@@ -14,11 +15,19 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
 const indexRouter = require("./routes/index");
+console.log(process.env.MONGO_USERNAME);
+
+
+
+
 //mongoose connection
-mongoose.connect("mongodb+srv://CMS:bk9828064545@cluster0.itloa.mongodb.net/Doctor-Patient?retryWrites=true&w=majority", {
+//mongoose.connect("mongodb://kube:kube@localhost:27017/kube", {
+ mongoose.connect(`mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@localhost:27017/kube`,{
+
    useNewUrlParser: true,
    useUnifiedTopology: true
 });
+
 
 app.use("/api/v1", indexRouter);
 const dbConn = mongoose.connection;
